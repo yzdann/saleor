@@ -14,14 +14,30 @@ import { ListProps } from "../../..";
 import Skeleton from "../../../components/Skeleton";
 import TablePagination from "../../../components/TablePagination";
 import i18n from "../../../i18n";
-import { renderCollection } from "../../../misc";
+import { maybe, renderCollection } from "../../../misc";
 import { StaffList_staffUsers_edges_node } from "../../types/StaffList";
 
 interface StaffListProps extends ListProps {
   staffMembers: StaffList_staffUsers_edges_node[];
 }
 
-const decorate = withStyles({
+const decorate = withStyles(theme => ({
+  avatar: {
+    alignItems: "center" as "center",
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: "100%",
+    display: "grid" as "grid",
+    float: "left" as "left",
+    height: 37,
+    justifyContent: "center" as "center",
+    marginRight: theme.spacing.unit * 1 + "px",
+    width: 37
+  },
+  avatarText: {
+    color: "#ffffff",
+    fontSize: 18,
+    pointerEvents: "none" as "none"
+  },
   statusText: {
     color: "#9E9D9D"
   },
@@ -31,7 +47,7 @@ const decorate = withStyles({
   wideColumn: {
     width: "80%"
   }
-});
+}));
 const StaffList = decorate<StaffListProps>(
   ({
     classes,
@@ -86,6 +102,14 @@ const StaffList = decorate<StaffListProps>(
                   staffMember.firstName &&
                   staffMember.lastName !== undefined ? (
                     <>
+                      <div className={classes.avatar}>
+                        <Typography className={classes.avatarText}>
+                          {maybe(
+                            () =>
+                              `${staffMember.firstName[0].toUpperCase()}${staffMember.lastName[0].toUpperCase()}`
+                          ) || ""}
+                        </Typography>
+                      </div>
                       <Typography>
                         {`${staffMember.firstName} ${staffMember.lastName}`}
                       </Typography>
