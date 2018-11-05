@@ -23,8 +23,8 @@ const decorate = withStyles({
   tableRow: {
     cursor: "pointer" as "pointer"
   },
-  textRight: {
-    textAlign: "right" as "right"
+  textCenter: {
+    textAlign: "center" as "center"
   },
   wideCell: {
     width: "60%"
@@ -44,10 +44,13 @@ const CustomerList = decorate<CustomerListProps>(
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>
+              {i18n.t("Customer Name", { context: "table header" })}
+            </TableCell>
             <TableCell className={classes.wideCell}>
               {i18n.t("Customer e-mail", { context: "table header" })}
             </TableCell>
-            <TableCell className={classes.textRight}>
+            <TableCell className={classes.textCenter}>
               {i18n.t("Orders", { context: "table header" })}
             </TableCell>
           </TableRow>
@@ -77,9 +80,15 @@ const CustomerList = decorate<CustomerListProps>(
                 <TableCell
                   onClick={customer ? onRowClick(customer.id) : undefined}
                 >
+                  {maybe<React.ReactNode>(
+                    () => `${customer.firstName} ${customer.lastName}`,
+                    <Skeleton />
+                  )}
+                </TableCell>
+                <TableCell>
                   {maybe<React.ReactNode>(() => customer.email, <Skeleton />)}
                 </TableCell>
-                <TableCell className={classes.textRight}>
+                <TableCell className={classes.textCenter}>
                   {maybe<React.ReactNode>(
                     () => customer.orders.totalCount,
                     <Skeleton />
@@ -89,7 +98,7 @@ const CustomerList = decorate<CustomerListProps>(
             ),
             () => (
               <TableRow>
-                <TableCell colSpan={2}>
+                <TableCell colSpan={3}>
                   {i18n.t("No customers found")}
                 </TableCell>
               </TableRow>
