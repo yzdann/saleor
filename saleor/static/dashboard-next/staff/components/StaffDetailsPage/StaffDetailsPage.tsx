@@ -81,7 +81,9 @@ const StaffDetailsPage = decorate<StaffDetailsPageProps>(
               {({ data, change, submit }) => (
                 <Container width="md">
                   <PageHeader
-                    title={maybe(() => staffMember.email)}
+                    title={maybe(
+                      () => `${staffMember.firstName} ${staffMember.lastName}`
+                    )}
                     onBack={onBack}
                   />
                   <div className={classes.root}>
