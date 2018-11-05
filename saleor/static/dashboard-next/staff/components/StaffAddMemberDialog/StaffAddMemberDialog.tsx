@@ -11,11 +11,14 @@ import * as React from "react";
 import { UserError } from "../../..";
 import { ControlledCheckbox } from "../../../components/ControlledCheckbox";
 import Form from "../../../components/Form";
+import FormSpacer from "../../../components/FormSpacer";
 import i18n from "../../../i18n";
 
 export interface FormData {
   email: string;
+  firstName: string;
   fullAccess: boolean;
+  lastName: string;
 }
 interface StaffAddMemberDialogProps {
   errors: UserError[];
@@ -26,7 +29,9 @@ interface StaffAddMemberDialogProps {
 
 const initialForm: FormData = {
   email: "",
-  fullAccess: false
+  firstName: "",
+  fullAccess: false,
+  lastName: ""
 };
 
 const decorate = withStyles(theme => ({
@@ -40,6 +45,11 @@ const decorate = withStyles(theme => ({
     fontWeight: 600 as 600,
     marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit * 2
+  },
+  textFieldGrid: {
+    display: "grid",
+    gridColumnGap: `${theme.spacing.unit * 2}px`,
+    gridTemplateColumns: "1fr 1fr"
   }
 }));
 const StaffAddMemberDialog = decorate<StaffAddMemberDialogProps>(
@@ -50,11 +60,32 @@ const StaffAddMemberDialog = decorate<StaffAddMemberDialogProps>(
           <>
             <DialogTitle>{i18n.t("Add Staff Member")}</DialogTitle>
             <DialogContent>
+              <div className={classes.textFieldGrid}>
+                <TextField
+                  error={!!formErrors.firstName}
+                  helperText={formErrors.firstName}
+                  label={i18n.t("First Name")}
+                  name="firstName"
+                  type="text"
+                  value={data.firstName}
+                  onChange={change}
+                />
+                <TextField
+                  error={!!formErrors.lastName}
+                  helperText={formErrors.lastName}
+                  label={i18n.t("Last Name")}
+                  name="lastName"
+                  type="text"
+                  value={data.lastName}
+                  onChange={change}
+                />
+              </div>
+              <FormSpacer />
               <TextField
                 error={!!formErrors.email}
                 fullWidth
                 helperText={formErrors.email}
-                label={i18n.t("E-mail")}
+                label={i18n.t("Email address")}
                 name="email"
                 type="email"
                 value={data.email}
