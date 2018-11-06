@@ -16,23 +16,34 @@ import { CustomerDetails_user } from "../../types/CustomerDetails";
 export interface CustomerDetailsProps {
   customer: CustomerDetails_user;
   data: {
+    firstName: string;
+    lastName: string;
     email: string;
     isActive: boolean;
     note: string;
   };
   disabled: boolean;
   errors: {
+    firstName?: string;
+    lastName?: string;
     email?: string;
     note?: string;
   };
   onChange: (event: React.ChangeEvent<any>) => void;
 }
 
-const decorate = withStyles({
+const decorate = withStyles(theme => ({
   cardTitle: {
     height: 64
+  },
+  root: {
+    display: "grid" as "grid",
+    gridColumnGap: theme.spacing.unit * 2 + "px",
+    gridRowGap: theme.spacing.unit * 3 + "px",
+    gridTemplateColumns: "1fr 1fr"
   }
-});
+}));
+
 const CustomerDetails = decorate<CustomerDetailsProps>(
   ({ classes, customer, data, disabled, errors, onChange }) => (
     <Card>
@@ -60,6 +71,31 @@ const CustomerDetails = decorate<CustomerDetailsProps>(
           name="isActive"
           onChange={onChange}
         />
+        <FormSpacer />
+        <div className={classes.root}>
+          <TextField
+            disabled={disabled}
+            error={!!errors.firstName}
+            fullWidth
+            helperText={errors.firstName}
+            name="firstName"
+            type="text"
+            label={i18n.t("First Name")}
+            value={data.firstName}
+            onChange={onChange}
+          />
+          <TextField
+            disabled={disabled}
+            error={!!errors.lastName}
+            fullWidth
+            helperText={errors.lastName}
+            name="lastName"
+            type="text"
+            label={i18n.t("Last Name")}
+            value={data.lastName}
+            onChange={onChange}
+          />
+        </div>
         <FormSpacer />
         <TextField
           disabled={disabled}

@@ -21,6 +21,13 @@ const props: CustomerDetailsPageProps = {
   saveButtonBar: "default"
 };
 
+interface CustomerDetailsPageErrors {
+  firstName: string;
+  email: string;
+  lastName: string;
+  note: string;
+}
+
 storiesOf("Views / Customers / Customer details", module)
   .addDecorator(Decorator)
   .add("default", () => <CustomerDetailsPage {...props} />)
@@ -30,7 +37,9 @@ storiesOf("Views / Customers / Customer details", module)
   .add("form errors", () => (
     <CustomerDetailsPage
       {...props}
-      errors={[formError("email"), formError("note")]}
+      errors={(["email", "firstName", "lastName"] as Array<
+        keyof CustomerDetailsPageErrors
+      >).map(field => formError(field))}
     />
   ))
   .add("different addresses", () => (

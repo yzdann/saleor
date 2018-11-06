@@ -17,6 +17,8 @@ import CustomerOrders from "../CustomerOrders/CustomerOrders";
 import CustomerStats from "../CustomerStats/CustomerStats";
 
 export interface CustomerDetailsPageFormData {
+  firstName: string;
+  lastName: string;
   email: string;
   isActive: boolean;
   note: string;
@@ -60,7 +62,9 @@ const CustomerDetailsPage = decorate<CustomerDetailsPageProps>(
       errors={errors}
       initial={{
         email: maybe(() => customer.email),
+        firstName: maybe(() => customer.firstName),
         isActive: maybe(() => customer.isActive),
+        lastName: maybe(() => customer.lastName),
         note: maybe(() => customer.note)
       }}
       key={JSON.stringify(customer)}
@@ -68,7 +72,10 @@ const CustomerDetailsPage = decorate<CustomerDetailsPageProps>(
     >
       {({ change, data, errors: formErrors, hasChanged, submit }) => (
         <Container width="md">
-          <PageHeader onBack={onBack} title={maybe(() => customer.email)} />
+          <PageHeader
+            onBack={onBack}
+            title={maybe(() => `${customer.firstName} ${customer.lastName}`)}
+          />
           <div className={classes.root}>
             <div>
               <CustomerDetails
